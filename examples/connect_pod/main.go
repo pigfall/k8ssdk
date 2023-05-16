@@ -1,7 +1,7 @@
 package main
 
 import (
-	"context"
+	//"context"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -10,7 +10,7 @@ import (
 	core "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/portforward"
 	"k8s.io/client-go/transport/spdy"
-	"github.com/telepresenceio/telepresence/v2/pkg/dnet"
+	//"github.com/telepresenceio/telepresence/v2/pkg/dnet"
 )
 
 func main() {
@@ -31,8 +31,8 @@ func main() {
 	reqURL := clientSet.CoreV1().RESTClient().
 		Post().
 		Resource("pods").
-		Namespace("tzz").
-		Name("nginx-6595874d85-lzl2w").
+		Namespace("tzz-dev").
+		Name("nginx").
 		SubResource("portforward").
 		URL()
 
@@ -59,17 +59,17 @@ func main() {
 		panic(err)
 	}
 	defer stream.Close()
-	dialer,err := dnet.NewK8sPortForwardDialer(context.Background(),config.GetRestConfig(),clientSet)
-	if err != nil{
-		panic(err)
-	}
-	//conn2,err := dialer(context.Background(),"nginx-6595874d85-lzl2w.tzz:80")
-	conn2,err := dialer(context.Background(),"svc/nginx.tzz:80")
-	if err != nil{
-		panic(err)
-	}
-	defer conn2.Close()
-	_,err = stream.Write([]byte("GET"))
+	//dialer,err := dnet.NewK8sPortForwardDialer(context.Background(),config.GetRestConfig(),clientSet)
+	//if err != nil{
+	//	panic(err)
+	//}
+	////conn2,err := dialer(context.Background(),"nginx-6595874d85-lzl2w.tzz:80")
+	//conn2,err := dialer(context.Background(),"svc/nginx.tzz:80")
+	//if err != nil{
+	//	panic(err)
+	//}
+	//defer conn2.Close()
+	_,err = stream.Write([]byte("GET\n\n"))
 	if err != nil{
 		panic(err)
 	}
